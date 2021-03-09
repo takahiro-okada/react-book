@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>2章 コンポーネントのライフサイクル</title>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <div id="app">
+    <!-- my app renders here -->
+  </div>
+  <script src="react/build/react.js"></script>
+  <script src="react/build/react-dom.js"></script>
+  <script>
+    var TextAreaCounter = React.createClass({
+
+      // コンポーネントを受け付けるプロパティの名前や値を宣言
+      propTypes: {
+        text: React.PropTypes.string,
+      },
+
+      // プロパティのデフォルト値
+      getDefaultProps: function () {
+        return {
+          text: '',
+        };
+      },
+
+      // 常に正しいデータを取得する
+      getInitialState: function () {
+        return {
+          text: this.props.text,
+        };
+      },
+      // ユーザーがテキストエリアの文字を入力すると、コンポーネントはヘルパーメソッドを使ってステートを更新する
+      _textChange: function (ev) {
+        this.setState({
+          text: ev.target.value,
+        });
+      },
+
+      render: function () {
+        return React.DOM.div(null,
+          React.DOM.textarea({
+            value: this.state.text,
+            onChange: this._textChange,
+          }),
+          React.DOM.h3(null, this.state.text.length)
+        );
+      }
+    });
+
+    ReactDOM.render(
+      React.createElement(TextAreaCounter, {
+        text: "ボブ",
+      }),
+      document.getElementById("app")
+    );
+  </script>
+</body>
+
+</html>
